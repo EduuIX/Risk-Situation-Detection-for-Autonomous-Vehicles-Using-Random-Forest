@@ -439,6 +439,7 @@ Todos os caminhos abaixo são relativos a `reports/figures/`.
 | `09_permutation_importance.png` | Redução de F1 após permutação | Teste |
 | `10_threshold_analysis.png` | Precision, recall e F1 por threshold | OOF no treino |
 | `11_model_comparison.png` / `.pdf` | Seis métricas dos cinco modelos | Teste |
+| `11_model_comparison_<metrica>.png` | Gráficos individuais: `accuracy`, `precision`, `recall`, `f1`, `roc_auc`, `average_precision` | Teste |
 | `12_features_by_class.png` | Boxplots por classe | Treino |
 
 ## 18. Como conferir uma execução

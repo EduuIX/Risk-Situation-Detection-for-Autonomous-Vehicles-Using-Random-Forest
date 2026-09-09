@@ -40,6 +40,12 @@
     "metrics/outliers.csv": "f2f0e77908da7505a6e5f4cf3bd5316cd91cfc2f969df34f9597cc96f337fae3",
     "metrics/permutation_importance.csv": "fedb04bacacc4df64a397fc151b465c9889120a2396d996388afaf5d974ba1f7",
     "metrics/threshold_analysis.csv": "7bf515dcf227c0327aead73e8a33925ef86066c701c8aa80f5896a7f79278858",
-    "metrics/train_test_comparison.csv": "6471500a0fc4bd4f8ba06b6eb3042877aeff59ce5b9a86a9278089a29bb7d30e"
+    "metrics/train_test_comparison.csv": "6471500a0fc4bd4f8ba06b6eb3042877aeff59ce5b9a86a9278089a29bb7d30e",
+    "figures/11_model_comparison_accuracy.png": "7c7b3dc851ffc49214ee3f45bb9eb7d24319c8d48ab00412301a7040a36f24e2",
+    "figures/11_model_comparison_average_precision.png": "4c56cda617a4b9f04fb49a4ec9170d3251989f5b76eed37a50553384f244734c",
+    "figures/11_model_comparison_f1.png": "2a9b34e104c9bafe5ff14f6b32d843b47df55378453536b125675764812c1ec5",
+    "figures/11_model_comparison_precision.png": "2b5bb9c3187fc748aef138cbb775113bd84ae53b6367cb5a2264ab8082634b86",
+    "figures/11_model_comparison_recall.png": "8062cd2e7f6e33c53915e1f754bd03785272af38db2e09f52d70986266095255",
+    "figures/11_model_comparison_roc_auc.png": "5157118d218b1f00d40260cc5b2e964296b4cf3fd803c2ee3d0e8db697edea2f"
   }
 }

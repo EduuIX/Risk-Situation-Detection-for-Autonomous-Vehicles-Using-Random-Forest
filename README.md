@@ -214,6 +214,15 @@ Fonte: [model_comparison.csv](docs/results/metrics/model_comparison.csv).
 
 [Versão vetorial em PDF do gráfico comparativo](docs/results/figures/11_model_comparison.pdf).
 
+Gráficos individuais em PNG:
+
+- [Acurácia](docs/results/figures/11_model_comparison_accuracy.png)
+- [Precisão](docs/results/figures/11_model_comparison_precision.png)
+- [Recall](docs/results/figures/11_model_comparison_recall.png)
+- [F1-score](docs/results/figures/11_model_comparison_f1.png)
+- [ROC-AUC](docs/results/figures/11_model_comparison_roc_auc.png)
+- [Average Precision (AP)](docs/results/figures/11_model_comparison_average_precision.png)
+
 O **RF balanced teve o maior F1 pontual no teste (0,9450)** e o maior recall (0,9545).
 O RF padrão permanece como modelo selecionado, pois trocar a escolha com base nesses
 resultados utilizaria o teste como validação. O tuned igualou acurácia, precisão,

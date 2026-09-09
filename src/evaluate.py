@@ -69,7 +69,7 @@ def importance_plots(model, X, y, root: Path, seed: int, jobs: int) -> tuple:
 
 
 def plot_model_comparison(comparison: pd.DataFrame, root: Path = ROOT) -> None:
-    """Compara métricas de teste por modelo e exporta PNG e PDF para o relatório."""
+    """Exporta comparação conjunta (PNG/PDF) e um PNG por métrica de teste."""
     labels = {
         'dummy': 'Dummy Classifier',
         'decision_tree': 'Decision Tree',
@@ -85,8 +85,7 @@ def plot_model_comparison(comparison: pd.DataFrame, root: Path = ROOT) -> None:
     colors = ['#7A869A', '#D58228', '#2878B5', '#299D73', '#9467BD']
     figures = root / 'reports/figures'
     figures.mkdir(parents=True, exist_ok=True)
-    fig, axes = plt.subplots(3, 2, figsize=(17, 12))
-    for ax, (column, title) in zip(axes.flat, metrics.items()):
+    def draw_metric(ax, column, title):
         bars = ax.barh(
             [labels.get(name, name) for name in comparison.index],
             comparison[column], color=colors, height=.65,
@@ -101,6 +100,10 @@ def plot_model_comparison(comparison: pd.DataFrame, root: Path = ROOT) -> None:
         ax.spines[['top', 'right']].set_visible(False)
         ax.bar_label(bars, labels=[f'{value:.4f}'.replace('.', ',')
                                   for value in comparison[column]], padding=5, fontsize=10)
+
+    fig, axes = plt.subplots(3, 2, figsize=(17, 12))
+    for ax, (column, title) in zip(axes.flat, metrics.items()):
+        draw_metric(ax, column, title)
     fig.suptitle('Comparação das métricas por modelo — conjunto de teste',
                  fontsize=19, fontweight='bold', y=.985)
     fig.text(.5, .945, 'Precisão, recall e F1: classe de alto risco | Threshold: 0,5',
@@ -112,6 +115,22 @@ def plot_model_comparison(comparison: pd.DataFrame, root: Path = ROOT) -> None:
     for extension in ('png', 'pdf'):
         fig.savefig(figures / f'11_model_comparison.{extension}', dpi=200, bbox_inches='tight')
     plt.close(fig)
+    for column, title in metrics.items():
+        fig, ax = plt.subplots(figsize=(11, 6))
+        draw_metric(ax, column, f'{title} por modelo — conjunto de teste')
+        if column in ('roc_auc', 'average_precision'):
+            note = 'Calculada com probabilidades, sem threshold.'
+        elif column == 'accuracy':
+            note = 'Acertos nas duas classes | Threshold: 0,5.'
+        else:
+            note = 'Classe de alto risco | Threshold: 0,5.'
+        fig.text(.5, .065, note, ha='center', fontsize=10)
+        fig.text(.5, .025, 'Fonte: reports/metrics/model_comparison.csv',
+                 ha='center', fontsize=9, color='#444444')
+        fig.tight_layout(rect=(0, .1, 1, 1))
+        fig.savefig(figures / f'11_model_comparison_{column}.png',
+                    dpi=200, bbox_inches='tight')
+        plt.close(fig)
 
 
 def evaluate_artifacts(root: Path = ROOT, jobs: int = 1) -> pd.DataFrame:
