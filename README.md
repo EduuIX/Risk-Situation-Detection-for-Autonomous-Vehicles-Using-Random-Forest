@@ -40,6 +40,8 @@ veículo nem valida consequências físicas dessas decisões.
 Utilizamos o arquivo `labeled/20240208_120000_vld.csv` do
 [repositório dos autores do POLIDriving](https://github.com/laboratorioAI/polidriving),
 associado ao [artigo de Marcillo et al. (2024)](https://doi.org/10.3390/app14146300).
+O [PDF completo está em docs/](docs/polidriving-2024.pdf), acompanhado da
+[referência bibliográfica e licença](docs/artigo-base.md).
 O download está fixado no commit `47238f96a18cb58733353cb647a0af99d4b4f0b5`.
 
 O recorte possui **1.980 registros, 14 preditores e o target `risk_level`**, além de um

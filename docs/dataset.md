@@ -2,6 +2,8 @@
 
 Fonte primária: [POLIDriving — repositório dos autores](https://github.com/laboratorioAI/polidriving).
 Publicação: [Marcillo et al. (2024), Applied Sciences 14(14), 6300](https://doi.org/10.3390/app14146300).
+Disponível também como [PDF local](polidriving-2024.pdf), com
+[referência bibliográfica, BibTeX e licença](artigo-base.md).
 Consulte a licença MIT do repositório original; a licença deste projeto não substitui a atribuição dos dados.
 
 Usamos exclusivamente `labeled/20240208_120000_vld.csv`, descrito pelos autores como
