@@ -1,0 +1,45 @@
+{
+  "selected_model": "random_forest",
+  "threshold": 0.5,
+  "data_sha256": "c57a6e89f07fb7d38eb9055fc3bd7e172f736f8ab251713c5da4a2d663d38eca",
+  "python": "3.14.4",
+  "versions": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.5",
+    "scikit-learn": "1.9.0",
+    "joblib": "1.6.0",
+    "matplotlib": "3.11.1",
+    "seaborn": "0.13.2"
+  },
+  "config": {
+    "seed": 42,
+    "test_size": 0.2,
+    "folds": 5,
+    "iterations": 20,
+    "jobs": 1
+  },
+  "dataset": "20240208_120000_vld.csv",
+  "note": "Snapshot estático da execução documentada no README; novos treinos não atualizam este relatório.",
+  "artifacts_sha256": {
+    "figures/03_correlation_matrix.png": "bde83df7d9bc13fe892e321fb1b4f160a957800c0e28b79aecf58e396c4b9ef3",
+    "figures/05_confusion_matrix.png": "27f8873d27e943680c2a9389f3ee79fb9d3e14b71afd697485130b7654513954",
+    "figures/08_feature_importance.png": "950627b39e380ced1bdb52c1b9c5b3d19ffbdfff9b89dd26b302f079cb4484c6",
+    "figures/09_permutation_importance.png": "4969f481a4ed4469bd17c019395b42eba69591346361bcb69b2eefd2d64e5dba",
+    "figures/10_threshold_analysis.png": "4882d5f808277bff3d1a13a62253c48038ec9c2ac1253c2094e17f54812e96e8",
+    "figures/11_model_comparison.pdf": "31646c458478ffb5ac4970305e3141fb99643422e828d3c6b09658d1d62a7415",
+    "figures/11_model_comparison.png": "6ee34447a520ec16f9e967802fdac625082757df716663ee815b5cfdaa3ef1ac",
+    "metrics/best_parameters.json": "4a285e6de0bc41408c8b4c75c6134689d84a14d370e85c7b1550ceb2ec862d78",
+    "metrics/classification_reports.json": "6ba001727bc940566079424f0e5605b0fe3f4d943f2413363533d936df751676",
+    "metrics/correlations.csv": "658b771513c1e5a24856af77c11d4b5741ce3a8f4a61f975fdfbf8e76d3adf53",
+    "metrics/cv_folds.csv": "fa4042eca7097b54a47a6dc0733ff97932d731f6a93609add90ec3ac223e7b60",
+    "metrics/cv_summary.csv": "e7356b81bfc181fda2dd87ac97c9bf4dd4a80c13f5e79a41cf976b9891b239be",
+    "metrics/dataset_inspection.json": "5d758cfbfbec6fdbde354ec3adeb92621d957ed2fb0f782a26ed7a2edbffc578",
+    "metrics/feature_importance.csv": "651a9e00a25376c1e66b5fc07695949e8f1bb95141bf2a749e4175d7d02778d2",
+    "metrics/features_by_class.csv": "993a51cc954caa74d2c5bb9418f3c12ec0eaefb54e2d6a0f3bc601d74e6a9543",
+    "metrics/model_comparison.csv": "3dc383ca6ca653bf55c43758b476f0fc4d56b44ec271f8f674209f84e5568746",
+    "metrics/outliers.csv": "f2f0e77908da7505a6e5f4cf3bd5316cd91cfc2f969df34f9597cc96f337fae3",
+    "metrics/permutation_importance.csv": "fedb04bacacc4df64a397fc151b465c9889120a2396d996388afaf5d974ba1f7",
+    "metrics/threshold_analysis.csv": "7bf515dcf227c0327aead73e8a33925ef86066c701c8aa80f5896a7f79278858",
+    "metrics/train_test_comparison.csv": "6471500a0fc4bd4f8ba06b6eb3042877aeff59ce5b9a86a9278089a29bb7d30e"
+  }
+}
