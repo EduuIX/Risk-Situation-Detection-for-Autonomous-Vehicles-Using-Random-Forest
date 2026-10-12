@@ -216,6 +216,21 @@ Fonte: [model_comparison.csv](docs/results/metrics/model_comparison.csv).
 
 [Versão vetorial em PDF do gráfico comparativo](docs/results/figures/11_model_comparison.pdf).
 
+![Curvas ROC dos cinco modelos no teste](docs/results/figures/06_roc_comparison.png)
+
+![Curvas precisão–recall dos cinco modelos no teste](docs/results/figures/07_precision_recall_comparison.png)
+
+As curvas usam probabilidades da classe de alto risco. A diagonal da ROC representa
+a referência aleatória; a referência na curva PR é a prevalência positiva de 0,5.
+Versões vetoriais: [ROC](docs/results/figures/06_roc_comparison.pdf) e
+[precisão–recall](docs/results/figures/07_precision_recall_comparison.pdf).
+
+![Resultados individuais dos cinco folds e respectivas médias](docs/results/figures/13_cv_comparison.png)
+
+Cada ponto representa um fold e o traço representa a média. Esses pontos não são
+intervalos de confiança; a validação do tuned foi usada na seleção de parâmetros.
+Veja os [critérios de apresentação das figuras](docs/visualizacao-resultados.md).
+
 Gráficos individuais em PNG:
 
 - [Acurácia](docs/results/figures/11_model_comparison_accuracy.png)

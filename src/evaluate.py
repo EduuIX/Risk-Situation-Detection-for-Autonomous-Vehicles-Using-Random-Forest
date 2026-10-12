@@ -18,6 +18,7 @@ from sklearn.metrics import (
 from .config import ROOT, RANDOM_STATE
 from .eda import save_figure
 from .utils import write_json
+from .plots import plot_model_comparison, plot_curves, plot_cv, plot_importances
 
 
 def binary_metrics(y, probability, threshold: float = .5) -> dict:
@@ -51,86 +52,18 @@ def importance_plots(model, X, y, root: Path, seed: int, jobs: int) -> tuple:
                          index=model.named_steps['preprocess'].get_feature_names_out(),
                          name='importance').sort_values(ascending=False)
     impurity.to_csv(metrics / 'feature_importance.csv', index_label='feature')
-    impurity.head(15).sort_values().plot.barh(figsize=(10, 7), title='Importância por impureza — Random Forest selecionado')
-    plt.xlabel('Redução normalizada de impureza'); plt.ylabel('Atributo transformado')
-    save_figure(figures / '08_feature_importance.png')
     perm = permutation_importance(model, X, y, scoring='f1', n_repeats=10,
                                   random_state=seed, n_jobs=jobs)
     table = pd.DataFrame({'feature': X.columns, 'mean': perm.importances_mean,
                           'std': perm.importances_std}).sort_values('mean', ascending=False)
     table.to_csv(metrics / 'permutation_importance.csv', index=False)
-    top = table.head(15).sort_values('mean')
-    plt.figure(figsize=(10, 7))
-    plt.barh(top.feature, top['mean'], xerr=top['std'])
-    plt.title('Permutation importance — teste (interpretação posterior)')
-    plt.xlabel('Redução de F1; barras = desvio entre permutações'); plt.ylabel('Atributo original')
-    save_figure(figures / '09_permutation_importance.png')
+    plot_importances(impurity, table, figures)
     return impurity, table
 
 
-def plot_model_comparison(comparison: pd.DataFrame, root: Path = ROOT) -> None:
-    """Exporta comparação conjunta (PNG/PDF) e um PNG por métrica de teste."""
-    labels = {
-        'dummy': 'Dummy Classifier',
-        'decision_tree': 'Decision Tree',
-        'random_forest': 'Random Forest padrão',
-        'random_forest_balanced': 'Random Forest balanced',
-        'random_forest_tuned': 'Random Forest tuned',
-    }
-    metrics = {
-        'accuracy': 'Acurácia', 'precision': 'Precisão', 'recall': 'Recall',
-        'f1': 'F1-score', 'roc_auc': 'ROC-AUC',
-        'average_precision': 'Average Precision (AP)',
-    }
-    colors = ['#7A869A', '#D58228', '#2878B5', '#299D73', '#9467BD']
-    figures = root / 'reports/figures'
-    figures.mkdir(parents=True, exist_ok=True)
-    def draw_metric(ax, column, title):
-        bars = ax.barh(
-            [labels.get(name, name) for name in comparison.index],
-            comparison[column], color=colors, height=.65,
-        )
-        ax.invert_yaxis()
-        ax.set_xlim(0, 1.13)
-        ax.set_xticks(np.arange(0, 1.01, .2))
-        ax.set_xlabel('Valor da métrica (0 a 1)')
-        ax.set_title(title, fontweight='bold', loc='left')
-        ax.set_axisbelow(True)
-        ax.grid(axis='x', alpha=.2)
-        ax.spines[['top', 'right']].set_visible(False)
-        ax.bar_label(bars, labels=[f'{value:.4f}'.replace('.', ',')
-                                  for value in comparison[column]], padding=5, fontsize=10)
-
-    fig, axes = plt.subplots(3, 2, figsize=(17, 12))
-    for ax, (column, title) in zip(axes.flat, metrics.items()):
-        draw_metric(ax, column, title)
-    fig.suptitle('Comparação das métricas por modelo — conjunto de teste',
-                 fontsize=19, fontweight='bold', y=.985)
-    fig.text(.5, .945, 'Precisão, recall e F1: classe de alto risco | Threshold: 0,5',
-             ha='center', fontsize=12)
-    fig.text(.5, .015, 'Fonte: reports/metrics/model_comparison.csv | '
-             'ROC-AUC e AP calculadas com probabilidades, sem threshold.',
-             ha='center', fontsize=10, color='#444444')
-    fig.tight_layout(rect=(0, .035, 1, .93), h_pad=2.5, w_pad=3)
-    for extension in ('png', 'pdf'):
-        fig.savefig(figures / f'11_model_comparison.{extension}', dpi=200, bbox_inches='tight')
-    plt.close(fig)
-    for column, title in metrics.items():
-        fig, ax = plt.subplots(figsize=(11, 6))
-        draw_metric(ax, column, f'{title} por modelo — conjunto de teste')
-        if column in ('roc_auc', 'average_precision'):
-            note = 'Calculada com probabilidades, sem threshold.'
-        elif column == 'accuracy':
-            note = 'Acertos nas duas classes | Threshold: 0,5.'
-        else:
-            note = 'Classe de alto risco | Threshold: 0,5.'
-        fig.text(.5, .065, note, ha='center', fontsize=10)
-        fig.text(.5, .025, 'Fonte: reports/metrics/model_comparison.csv',
-                 ha='center', fontsize=9, color='#444444')
-        fig.tight_layout(rect=(0, .1, 1, 1))
-        fig.savefig(figures / f'11_model_comparison_{column}.png',
-                    dpi=200, bbox_inches='tight')
-        plt.close(fig)
+def plot_roc_comparison(models, X_test, y_test, root: Path = ROOT) -> None:
+    """Exporta curvas ROC e PR comparativas dos modelos salvos."""
+    plot_curves(models, X_test, y_test, root)
 
 
 def evaluate_artifacts(root: Path = ROOT, jobs: int = 1) -> pd.DataFrame:
@@ -164,12 +97,16 @@ def evaluate_artifacts(root: Path = ROOT, jobs: int = 1) -> pd.DataFrame:
     RocCurveDisplay.from_predictions(y_test, probability, name=selected)
     plt.title('ROC — conjunto de teste'); plt.xlabel('Taxa de falsos positivos'); plt.ylabel('Recall')
     save_figure(figures / '06_roc_curve.png')
+    plot_roc_comparison(artifacts['models'], X_test, y_test, root)
     PrecisionRecallDisplay.from_predictions(y_test, probability, name=selected)
     plt.axhline(y_test.mean(), linestyle='--', color='gray', label='Prevalência de risco')
     plt.legend(); plt.title('Precision–Recall — conjunto de teste')
     plt.xlabel('Recall'); plt.ylabel('Precision')
     save_figure(figures / '07_precision_recall_curve.png')
     plot_model_comparison(comparison, root)
+    folds_path = metrics / 'cv_folds.csv'
+    if folds_path.exists():
+        plot_cv(pd.read_csv(folds_path), figures)
     impurity, permutation = importance_plots(model, X_test, y_test, root, artifacts['seed'], jobs)
     write_conclusion(root, comparison, full, selected, impurity, permutation)
     return comparison

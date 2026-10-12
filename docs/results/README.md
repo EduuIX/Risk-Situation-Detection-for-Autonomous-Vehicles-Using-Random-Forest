@@ -1,7 +1,11 @@
 # Evidências do relatório
 
 Esta pasta preserva os gráficos e as métricas reais usados no relatório da raiz.
-As cópias foram extraídas de `reports/figures/` e `reports/metrics/`, sem novo treinamento.
+As métricas foram extraídas de `reports/metrics/`, sem novo treinamento.
+Na revisão visual de 12/10/2026, os gráficos comparativos e de importância foram
+redesenhados a partir dos CSV desta pasta. As curvas ROC/PR foram geradas dos modelos
+locais salvos, cujas métricas de teste coincidem com as do snapshot. A revisão e as
+versões desses modelos estão registradas separadamente em `figure_revision` no manifesto.
 O [manifesto](manifest.json) registra a configuração, o hash dos dados, as versões e
 os hashes dos arquivos copiados. Não contém dados brutos ou modelos serializados.
 
